@@ -13,14 +13,15 @@ public class ConnectionFactory {
     private static final String DB_DATABASE = "departmants";
 
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:mariadb://"+ DB_HOST+"/"+DB_DATABASE+"?user=root&password=qwe123";
+        String url = "jdbc:mariadb://" + DB_HOST + "/" + DB_DATABASE + "?user=root&password=qwe123";
         return DriverManager.getConnection(url);
     }
-    public static void  closeConnection(Connection connection){
-        if(connection!=null){
-            try{
+
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
                 connection.close();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }

@@ -3,9 +3,9 @@ package com.kharkiv.zagnoyko.departments.dao;
 import com.kharkiv.zagnoyko.departments.entity.Employee;
 
 import java.sql.*;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Calendar;
 
 
 /**
@@ -13,85 +13,70 @@ import java.util.Calendar;
  */
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees(Connection connection) throws SQLException {
         List<Employee> employees = new LinkedList<Employee>();
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(Queries.SELECT_ALL_EMPLOYEES);
-            ResultSet resultSet=statement.executeQuery();
-            while (resultSet.next()){
-                employees.add(getEmployeeFromResultSet(resultSet));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
+        PreparedStatement statement = connection.prepareStatement(Queries.SELECT_ALL_EMPLOYEES);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            employees.add(getEmployeeFromResultSet(resultSet));
+        }
         return employees;
     }
 
     @Override
-    public Employee getEmployeebyId(int employeeId) {
-        Employee employee = null;
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(Queries.SELECT_EMPLOYEE_BY_ID);
-            statement.setInt(1, employeeId);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                employee = getEmployeeFromResultSet(resultSet);
-            }
+    public List<Employee> getEmployeesFromDepartment(Connection connection) throws SQLException {
+        List<Employee> employees = new LinkedList<Employee>();
+        PreparedStatement statement = connection.prepareStatement(Queries.SELECT_EMPLOYEES_FROM_DEPARTMENT);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            employees.add(getEmployeeFromResultSet(resultSet));
+        }
+        return employees;
+    }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+    @Override
+    public Employee getEmployeebyId(int employeeId, Connection connection) throws SQLException {
+        Employee employee = null;
+
+        PreparedStatement statement = connection.prepareStatement(Queries.SELECT_EMPLOYEE_BY_ID);
+        statement.setInt(1, employeeId);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            employee = getEmployeeFromResultSet(resultSet);
         }
         return employee;
     }
 
     @Override
-    public boolean deleteEmployee(int employeeId) {
+    public boolean deleteEmployee(int employeeId, Connection connection) throws SQLException {
         int result = 0;
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(Queries.DELETE_EMPLOYEE_BY_ID);
-            statement.setInt(1, employeeId);
-            result = statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result>0;
+        PreparedStatement statement = connection.prepareStatement(Queries.DELETE_EMPLOYEE_BY_ID);
+        statement.setInt(1, employeeId);
+        result = statement.executeUpdate();
+        return result > 0;
     }
 
     @Override
-    public boolean insertEmployee(Employee employee) {
+    public boolean insertEmployee(Employee employee, Connection connection) throws SQLException {
         int result = 0;
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(Queries.INSERT_EMPLOYEE);
-            setEmployeeToStatement(employee, statement);
-            result = statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()){
-                employee.setEmployeeId(resultSet.getInt(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        PreparedStatement statement = connection.prepareStatement(Queries.INSERT_EMPLOYEE);
+        setEmployeeToStatement(employee, statement);
+        result = statement.executeUpdate();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next()) {
+            employee.setEmployeeId(resultSet.getInt(1));
         }
-        return result>0;
+        return result > 0;
     }
 
     @Override
-    public boolean updateEmployeeById(Employee employee) {
+    public boolean updateEmployeeById(Employee employee, Connection connection) throws SQLException {
         int result = 0;
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(Queries.UPDATE_EMPLOYEE_BY_ID);
-            setEmployeeToStatement(employee,statement);
-            result = statement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result>0;
+        PreparedStatement statement = connection.prepareStatement(Queries.UPDATE_EMPLOYEE_BY_ID);
+        setEmployeeToStatement(employee, statement);
+        result = statement.executeUpdate();
+        return result > 0;
     }
 
     private void setEmployeeToStatement(Employee employee, PreparedStatement statement) throws SQLException {
@@ -101,7 +86,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         statement.setString(4, employee.getAddress());
         statement.setString(5, employee.getPhone());
         statement.setDate(6, new Date(employee.getHireDate().getTimeInMillis()));
-        statement.setString(7,employee.getEmail());
+        statement.setString(7, employee.getEmail());
     }
 
     private Employee getEmployeeFromResultSet(ResultSet resultSet) throws SQLException {
@@ -114,7 +99,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         employee.setBirthDate(cal);
         employee.setAddress(resultSet.getString(5));
         employee.setPhone(resultSet.getString(6));
-        Calendar calendar= Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(resultSet.getDate(7));
         employee.setHireDate(calendar);
         employee.setEmail(resultSet.getString(8));
