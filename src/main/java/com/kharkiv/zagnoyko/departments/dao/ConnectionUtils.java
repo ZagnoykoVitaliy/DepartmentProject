@@ -7,6 +7,10 @@ import java.sql.SQLException;
  * Created by Frederick on 22.03.2015.
  */
 public final class ConnectionUtils {
+
+    private  ConnectionUtils(){
+
+    }
     public static void rollback(Connection connection) {
         try {
             if (connection != null) {

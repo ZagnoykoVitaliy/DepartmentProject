@@ -34,13 +34,13 @@ public class EmployeeService {
         return employees;
     }
 
-    public List<Employee> getEmployeeFromDepartment() {
+    public List<Employee> getEmployeesByDepartmentId(int departmentId) {
         List<Employee> employees = null;
         Connection connection = null;
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            employees = employeeDAO.getEmployeesFromDepartment(connection);
+            employees = employeeDAO.getEmployeesByDepartmentId(departmentId, connection);
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {

@@ -15,7 +15,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees(Connection connection) throws SQLException {
         List<Employee> employees = new LinkedList<Employee>();
-
         PreparedStatement statement = connection.prepareStatement(Queries.SELECT_ALL_EMPLOYEES);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
@@ -25,7 +24,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public List<Employee> getEmployeesFromDepartment(Connection connection) throws SQLException {
+    public List<Employee> getEmployeesByDepartmentId(int departmentId,Connection connection) throws SQLException {
         List<Employee> employees = new LinkedList<Employee>();
         PreparedStatement statement = connection.prepareStatement(Queries.SELECT_EMPLOYEES_FROM_DEPARTMENT);
         ResultSet resultSet = statement.executeQuery();
@@ -38,7 +37,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public Employee getEmployeebyId(int employeeId, Connection connection) throws SQLException {
         Employee employee = null;
-
         PreparedStatement statement = connection.prepareStatement(Queries.SELECT_EMPLOYEE_BY_ID);
         statement.setInt(1, employeeId);
         ResultSet resultSet = statement.executeQuery();
@@ -50,19 +48,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean deleteEmployee(int employeeId, Connection connection) throws SQLException {
-        int result = 0;
         PreparedStatement statement = connection.prepareStatement(Queries.DELETE_EMPLOYEE_BY_ID);
         statement.setInt(1, employeeId);
-        result = statement.executeUpdate();
+        int result = statement.executeUpdate();
         return result > 0;
     }
 
     @Override
     public boolean insertEmployee(Employee employee, Connection connection) throws SQLException {
-        int result = 0;
         PreparedStatement statement = connection.prepareStatement(Queries.INSERT_EMPLOYEE);
         setEmployeeToStatement(employee, statement);
-        result = statement.executeUpdate();
+        int result = statement.executeUpdate();
         ResultSet resultSet = statement.getGeneratedKeys();
         if (resultSet.next()) {
             employee.setEmployeeId(resultSet.getInt(1));
@@ -72,10 +68,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean updateEmployeeById(Employee employee, Connection connection) throws SQLException {
-        int result = 0;
         PreparedStatement statement = connection.prepareStatement(Queries.UPDATE_EMPLOYEE_BY_ID);
         setEmployeeToStatement(employee, statement);
-        result = statement.executeUpdate();
+        int result = statement.executeUpdate();
         return result > 0;
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public interface EmployeeDAO  {
     List<Employee> getAllEmployees(Connection connection) throws SQLException;
 
-    List<Employee> getEmployeesFromDepartment(Connection connection) throws SQLException;
+    List<Employee> getEmployeesByDepartmentId(int departmentId, Connection connection) throws SQLException;
 
     Employee getEmployeebyId(int EmployeeId, Connection connection) throws  SQLException;
 

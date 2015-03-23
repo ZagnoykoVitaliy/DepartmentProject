@@ -15,4 +15,8 @@ public final class Queries {
     public static final String SELECT_EMPLOYEES_FROM_DEPARTMENT="select * from employee where DepartmentId = ?";
     public static final String INSERT_EMPLOYEE = "insert into employee (DepartmentId, Name, BirthDate,Address, Phone, HireDate, email) values (?,?,?,?,?,?,?)";
     public static final String UPDATE_EMPLOYEE_BY_ID = "update employee set DepartmentId = ?, Name = ?, birthDate = ?, address= ?, phone= ?, HireDate= ?, email=?, where EmployeeId = ?";
+
+    private Queries(){
+
+    }
 }

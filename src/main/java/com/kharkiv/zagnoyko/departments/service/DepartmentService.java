@@ -59,7 +59,6 @@ public class DepartmentService {
             result = deparmentDAO.deleteDepartment(departmentId, connection);
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
-
         } finally {
             ConnectionUtils.close(connection);
         }
@@ -81,17 +80,16 @@ public class DepartmentService {
         return result;
     }
 
-    public boolean updateDepartment(Department department){
-        Connection connection =null;
+    public boolean updateDepartment(Department department) {
+        Connection connection = null;
         boolean result = false;
-
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            result = deparmentDAO.updateDepartment(department , connection);
+            result = deparmentDAO.updateDepartment(department, connection);
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
-        }finally {
+        } finally {
             ConnectionUtils.close(connection);
         }
         return result;
