@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public final class ConnectionFactory {
 
     private static final String DB_HOST = "localhost:3306";
-    private static final String DB_DATABASE = "departmants";
+    private static final String DB_DATABASE = "Departments";
 
     private ConnectionFactory(){
 

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Frederick on 21.03.2015.
  */
-public class DepartmentDAOImpl implements DeparmentDAO {
+public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public List<Department> getAllDepartmants(Connection connection) throws SQLException {
         List<Department> departments = new LinkedList<Department>();
@@ -52,7 +52,8 @@ public class DepartmentDAOImpl implements DeparmentDAO {
     @Override
     public boolean insertDepartment(Department department, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(Queries.INSERT_DEPARTMENT);
-        statement.setString(1, department.getName());
+        statement.setString(2, department.getName());
+        statement.setInt(1, department.getDepartmentId());
         int result = statement.executeUpdate();
         ResultSet resultSet = statement.getGeneratedKeys();
         if (resultSet.next()) {
@@ -65,6 +66,7 @@ public class DepartmentDAOImpl implements DeparmentDAO {
     public boolean updateDepartment(Department department, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(Queries.UPDATE_DEPARTMENT);
         statement.setString(1, department.getName());
+        statement.setInt(2, department.getDepartmentId());
         int result = statement.executeUpdate();
         return result > 0;
     }

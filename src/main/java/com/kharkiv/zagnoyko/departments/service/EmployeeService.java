@@ -19,14 +19,16 @@ public class EmployeeService {
         this.employeeDAO = employeeDAO;
     }
 
-    public List<Employee> getAllEmployee() {
+    public List<Employee> getAllEmployees() {
         List<Employee> employees = null;
         Connection connection = null;
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
             employees = employeeDAO.getAllEmployees(connection);
+            connection.commit();
         } catch (SQLException e) {
+            e.printStackTrace();
             ConnectionUtils.rollback(connection);
         } finally {
             ConnectionUtils.close(connection);
@@ -41,6 +43,7 @@ public class EmployeeService {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
             employees = employeeDAO.getEmployeesByDepartmentId(departmentId, connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {
@@ -56,6 +59,7 @@ public class EmployeeService {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
             employee = employeeDAO.getEmployeebyId(employeeId, connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {
@@ -71,6 +75,7 @@ public class EmployeeService {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
             result = employeeDAO.deleteEmployee(employeeId, connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {
@@ -86,6 +91,7 @@ public class EmployeeService {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
             result = employeeDAO.insertEmployee(employee, connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {
@@ -101,6 +107,7 @@ public class EmployeeService {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
             result = employeeDAO.updateEmployeeById(employee, connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {

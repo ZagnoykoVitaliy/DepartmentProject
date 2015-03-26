@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
- * Created by Frederick on 19.03.2015.
+ * Created by Frederick on 26.03.2015.
  */
-@WebServlet("/getdeps")
-public class DepartmentsServlet extends HttpServlet {
+@WebServlet("/createDepartment")
+public class DepartmentsCreateServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String departmentName =req.getParameter("departmentName");
+        Department department = new Department();
+        department.setName(departmentName);
         ServletContext servletContext = req.getServletContext();
         DepartmentService departmentService = (DepartmentService) servletContext.getAttribute(Constants.DEPARTMENT_SERVICE);
-        List<Department> allDepartments = departmentService.getAllDepartments();
-        req.setAttribute(Constants.ALL_DEPARTMENTS_ATTRIBUTE_NAME, allDepartments);
-        req.getParameter("departmentId");
+        departmentService.insertDepartment(department);
+        resp.sendRedirect("index.jsp");
     }
 }

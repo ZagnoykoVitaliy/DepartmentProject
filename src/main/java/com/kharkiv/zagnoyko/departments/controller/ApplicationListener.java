@@ -8,16 +8,18 @@ import com.kharkiv.zagnoyko.departments.service.EmployeeService;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  * Created by Frederick on 23.03.2015.
  */
-public class ApplicationListener implements ServletContextListener{
+@WebListener
+public class ApplicationListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
-        DepartmentService departmentService=  new DepartmentService(new DepartmentDAOImpl());
+        DepartmentService departmentService = new DepartmentService(new DepartmentDAOImpl());
         EmployeeService employeeService = new EmployeeService(new EmployeeDAOImpl());
         servletContext.setAttribute(Constants.DEPARTMENT_SERVICE, departmentService);
         servletContext.setAttribute(Constants.EMPLOYEE_SERVICE, employeeService);

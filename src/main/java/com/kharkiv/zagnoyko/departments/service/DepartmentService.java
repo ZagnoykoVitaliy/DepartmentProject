@@ -2,7 +2,7 @@ package com.kharkiv.zagnoyko.departments.service;
 
 import com.kharkiv.zagnoyko.departments.dao.ConnectionFactory;
 import com.kharkiv.zagnoyko.departments.dao.ConnectionUtils;
-import com.kharkiv.zagnoyko.departments.dao.DeparmentDAO;
+import com.kharkiv.zagnoyko.departments.dao.DepartmentDAO;
 import com.kharkiv.zagnoyko.departments.entity.Department;
 
 import java.sql.Connection;
@@ -13,10 +13,10 @@ import java.util.List;
  * Created by Frederick on 22.03.2015.
  */
 public class DepartmentService {
-    private DeparmentDAO deparmentDAO;
+    private DepartmentDAO departmentDAO;
 
-    public DepartmentService(DeparmentDAO deparmentDAO) {
-        this.deparmentDAO = deparmentDAO;
+    public DepartmentService(DepartmentDAO departmentDAO) {
+        this.departmentDAO = departmentDAO;
     }
 
     public List<Department> getAllDepartments() {
@@ -25,7 +25,8 @@ public class DepartmentService {
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            departments = deparmentDAO.getAllDepartmants(connection);
+            departments = departmentDAO.getAllDepartmants(connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {
@@ -40,7 +41,8 @@ public class DepartmentService {
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            department = deparmentDAO.getDepartmentById(departmentId, connection);
+            department = departmentDAO.getDepartmentById(departmentId, connection);
+            connection.commit();
 
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
@@ -56,8 +58,10 @@ public class DepartmentService {
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            result = deparmentDAO.deleteDepartment(departmentId, connection);
+            result = departmentDAO.deleteDepartment(departmentId, connection);
+            connection.commit();
         } catch (SQLException e) {
+            e.printStackTrace();
             ConnectionUtils.rollback(connection);
         } finally {
             ConnectionUtils.close(connection);
@@ -71,7 +75,8 @@ public class DepartmentService {
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            result = deparmentDAO.insertDepartment(department, connection);
+            result = departmentDAO.insertDepartment(department, connection);
+            connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
         } finally {
@@ -86,8 +91,10 @@ public class DepartmentService {
         try {
             connection = ConnectionFactory.getConnection();
             connection.setAutoCommit(false);
-            result = deparmentDAO.updateDepartment(department, connection);
+            result = departmentDAO.updateDepartment(department, connection);
+            connection.commit();
         } catch (SQLException e) {
+            e.printStackTrace();
             ConnectionUtils.rollback(connection);
         } finally {
             ConnectionUtils.close(connection);

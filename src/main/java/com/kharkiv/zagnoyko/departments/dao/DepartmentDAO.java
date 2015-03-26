@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Frederick on 19.03.2015.
  */
-public interface DeparmentDAO  {
+public interface DepartmentDAO {
     List<Department> getAllDepartmants(Connection connection) throws SQLException;
 
     Department getDepartmentById(int departmentId, Connection connection) throws SQLException;

@@ -1,0 +1,15 @@
+body {
+    background-image: url(background-image.jpg);
+}
+
+.department_header {
+    color: chocolate;
+}
+
+input {
+    margin-right: 8px;
+}
+
+.department_control {
+    margin-bottom: 10px;
+}
