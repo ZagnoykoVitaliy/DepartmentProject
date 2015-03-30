@@ -26,8 +26,9 @@ public class EmployeesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletContext servletContext = req.getServletContext();
+        int departmentId = Integer.parseInt(req.getParameter("departmentId"));
         EmployeeService employeeService = (EmployeeService) servletContext.getAttribute(Constants.EMPLOYEE_SERVICE);
-        List<Employee> allEmployees = employeeService.getAllEmployees();
+        List<Employee> allEmployees = employeeService.getEmployeesByDepartmentId(departmentId);
         req.setAttribute(Constants.ALL_EMPLOYEES_ATTRIBUTE_NAME, allEmployees);
         req.getRequestDispatcher("/employees.jsp").forward(req, resp);
     }

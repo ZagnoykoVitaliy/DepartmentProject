@@ -15,15 +15,15 @@ import java.io.IOException;
 public class EmployeeCreateServlet extends HttpServlet {
     @Override
 
-    protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int departmentId = Integer.parseInt(req.getParameter("departmentId"));
-        String employeeName=req.getParameter("employeeName");
-        String employeePhone= req.getParameter("employeePhone");
-        String employeeAddress=req.getParameter("employeeAddress");
-        String employeeEmail=req.getParameter("employeeEmail");
+        String employeeName = req.getParameter("employeeName");
+        String employeePhone = req.getParameter("employeePhone");
+        String employeeAddress = req.getParameter("employeeAddress");
+        String employeeEmail = req.getParameter("employeeEmail");
 
-//        String employeeBirthDate=req.getParameter("employeeBirthDate");
-//        String employeeHireDate= req.getParameter("employeeHireDate");
+        String employeeBirthDate = req.getParameter("employeeBirthDate");
+        String employeeHireDate = req.getParameter("employeeHireDate");
         Employee employee = new Employee();
         employee.setDepartmentId(departmentId);
         employee.setName(employeeName);
@@ -33,7 +33,7 @@ public class EmployeeCreateServlet extends HttpServlet {
 //        employee.setBirthDate(employeeBirthDate);
 //        employee.setHireDate(employeeHireDate);
         ServletContext servletContext = req.getServletContext();
-        EmployeeService employeeService= (EmployeeService) servletContext.getAttribute(Constants.EMPLOYEE_SERVICE);
+        EmployeeService employeeService = (EmployeeService) servletContext.getAttribute(Constants.EMPLOYEE_SERVICE);
         employeeService.insertEmployee(employee);
         resp.sendRedirect("employees.jsp");
 

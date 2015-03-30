@@ -49,8 +49,17 @@ public class EmployeeUpdateServlet extends HttpServlet {
             employee.setBirthDate(calendar);
         } catch (ParseException e) {
             e.printStackTrace();
-        }//
-//        employee.setHireDate(employeeHireDate);
+        }
+
+        try {
+            Date date = sdf.parse(employeeHireDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            employee.setHireDate(calendar);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         ServletContext servletContext = req.getServletContext();
         EmployeeService employeeService = (EmployeeService) servletContext.getAttribute(Constants.EMPLOYEE_SERVICE);

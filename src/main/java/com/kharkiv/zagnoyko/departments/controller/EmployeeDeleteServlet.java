@@ -20,6 +20,6 @@ public class EmployeeDeleteServlet extends HttpServlet {
         ServletContext servletContext = req.getServletContext();
         EmployeeService employeeService = (EmployeeService) servletContext.getAttribute(Constants.EMPLOYEE_SERVICE);
         employeeService.deleteEmployee(employeeId);
-        resp.sendRedirect("getemployees");
+        resp.sendRedirect("employees.jsp");
     }
 }

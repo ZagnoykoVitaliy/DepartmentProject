@@ -27,6 +27,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public List<Employee> getEmployeesByDepartmentId(int departmentId,Connection connection) throws SQLException {
         List<Employee> employees = new LinkedList<Employee>();
         PreparedStatement statement = connection.prepareStatement(Queries.SELECT_EMPLOYEES_FROM_DEPARTMENT);
+        statement.setInt(1,departmentId);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()){
             employees.add(getEmployeeFromResultSet(resultSet));
@@ -61,7 +62,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         int result = statement.executeUpdate();
         ResultSet resultSet = statement.getGeneratedKeys();
         if (resultSet.next()) {
-            employee.setEmployeeId(resultSet.getInt(1));
+            employee.setEmployeeId(resultSet.getInt(2));
         }
         return result > 0;
     }

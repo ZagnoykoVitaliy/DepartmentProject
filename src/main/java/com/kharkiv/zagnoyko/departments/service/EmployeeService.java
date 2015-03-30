@@ -46,6 +46,7 @@ public class EmployeeService {
             connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
+            e.printStackTrace();
         } finally {
             ConnectionUtils.close(connection);
         }
@@ -110,6 +111,7 @@ public class EmployeeService {
             connection.commit();
         } catch (SQLException e) {
             ConnectionUtils.rollback(connection);
+            e.printStackTrace();
         } finally {
             ConnectionUtils.close(connection);
         }
